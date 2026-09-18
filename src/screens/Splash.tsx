@@ -19,7 +19,6 @@ export function Splash({ onStart }: { onStart: () => void }) {
         <Button fullWidth className="splash-cta" onClick={onStart}>
           Начать
         </Button>
-        <div className="splash-build-tag">build {__BUILD_TIME__.slice(0, 16).replace('T', ' ')}</div>
       </div>
     </div>
   );
