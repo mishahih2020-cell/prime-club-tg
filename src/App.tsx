@@ -30,7 +30,26 @@ export default function App() {
   }
 
   return (
-    <AppStateProvider>
+    <>
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 999998,
+          background: '#39ff14',
+          color: '#000',
+          fontSize: 11,
+          fontWeight: 700,
+          textAlign: 'center',
+          padding: '4px 8px',
+          fontFamily: 'monospace',
+        }}
+      >
+        DIAG: shell mounted · build {__BUILD_TIME__}
+      </div>
+      <AppStateProvider>
       {/*
         MemoryRouter — не HashRouter. Telegram сам дописывает в конец
         ссылки свои технические параметры через "#" (tgWebAppData,
@@ -59,6 +78,7 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </MemoryRouter>
-    </AppStateProvider>
+      </AppStateProvider>
+    </>
   );
 }

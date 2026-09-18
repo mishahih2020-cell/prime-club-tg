@@ -35,18 +35,16 @@ function getTelegram(): TelegramWebApp | null {
 export function initTelegram() {
   const tg = getTelegram();
   if (!tg) return;
+  // Временно сведено к двум самым базовым и надёжным вызовам —
+  // ready() и expand() поддерживаются абсолютно всеми клиентами Telegram
+  // с первой версии Bot API. Остальные вызовы (disableVerticalSwipes,
+  // setHeaderColor, requestFullscreen) убраны из диагностических целей:
+  // на реальном устройстве экран остаётся чёрным даже после их удаления
+  // по отдельности, поэтому сейчас исключаем все одновременно, чтобы
+  // окончательно снять их как возможную причину.
   try {
     tg.ready();
     tg.expand();
-    // requestFullscreen (Bot API 8.0) сознательно не вызываем: это нативный
-    // переход в fullscreen, который без ручной обработки события
-    // viewportChanged может ломать раскладку на части реальных клиентов.
-    // expand() уже даёт разворот на весь доступный экран и стабилен везде.
-    if (tg.isVersionAtLeast?.('7.7')) {
-      tg.disableVerticalSwipes?.();
-    }
-    tg.setHeaderColor?.('#0a0a0b');
-    tg.setBackgroundColor?.('#0a0a0b');
   } catch {
     // окружение вне Telegram — игнорируем
   }
