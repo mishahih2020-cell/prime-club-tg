@@ -1,0 +1,26 @@
+import clubInterior from '../assets/images/club-interior.jpg';
+import logo from '../assets/images/logo.png';
+import { Button } from '../components/Button';
+import '../styles/screens.css';
+
+export function Splash({ onStart }: { onStart: () => void }) {
+  return (
+    <div className="splash">
+      <img className="splash-bg" src={clubInterior} alt="PRIME CLUB" />
+      <div className="splash-overlay" />
+
+      <div className="splash-center anim-fade-in">
+        <img className="splash-logo" src={logo} alt="PRIME CLUB" />
+        <div className="splash-title">СИЛЬНЫЕ ЛЮДИ ЗДЕСЬ</div>
+        <div className="splash-subtitle">Тренировки. Комьюнити. Результат.</div>
+      </div>
+
+      <div className="splash-bottom anim-fade-in">
+        <Button fullWidth className="splash-cta" onClick={onStart}>
+          Начать
+        </Button>
+        <div className="splash-build-tag">build {__BUILD_TIME__.slice(0, 16).replace('T', ' ')}</div>
+      </div>
+    </div>
+  );
+}
