@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { MemoryRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppShell } from './components/AppShell';
 import { AppStateProvider } from './context/AppStateContext';
 import { initTelegram } from './lib/telegram';
@@ -31,7 +31,15 @@ export default function App() {
 
   return (
     <AppStateProvider>
-      <HashRouter>
+      {/*
+        MemoryRouter — не HashRouter. Telegram сам дописывает в конец
+        ссылки свои технические параметры через "#" (tgWebAppData,
+        tgWebAppVersion и т.д.). HashRouter пытался бы читать этот же "#"
+        как путь экрана, ничего не находил и рисовал пустой чёрный экран.
+        MemoryRouter хранит текущий экран в памяти приложения, а не в
+        адресной строке — конфликта с Telegram нет.
+      */}
+      <MemoryRouter initialEntries={['/']}>
         <Routes>
           <Route element={<AppShell />}>
             <Route path="/" element={<Home />} />
@@ -48,8 +56,9 @@ export default function App() {
           <Route path="/trainers/:id" element={<TrainerDetail />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </HashRouter>
+      </MemoryRouter>
     </AppStateProvider>
   );
 }
